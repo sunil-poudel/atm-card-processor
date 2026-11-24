@@ -1,0 +1,25 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    clean-disabled: false
+
+app:
+  bootstrap-admin:
+    email: admin@minicard.local
+    password: ${APP_BOOTSTRAP_ADMIN_PASSWORD:TestAdminPassword123!}
+  security:
+    jwt:
+      secret: ${APP_SECURITY_JWT_SECRET:dGVzdC1vbmx5LWp3dC1zZWNyZXQtbm90LWZvci1wcm9kdWN0aW9uLXVzZQ==}
+      access-token-expiration-minutes: 15
+      refresh-token-expiration-days: 7
+    cookie-secure: false
+  crypto:
+    pan:
+      current-key-id: k1
+      keys:
+        k1: ${APP_CRYPTO_PAN_KEYS_K1:dGVzdC1vbmx5LWFlcy1rZXktbm90LWZvci1wcm9k}
+      hash-key: ${APP_CRYPTO_PAN_HASH_KEY:dGVzdC1vbmx5LWhtYWMta2V5LW5vdC1mb3ItcHJvZA==}
+  cards:
+    expose-pan-on-issue: true

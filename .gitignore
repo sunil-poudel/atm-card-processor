@@ -1,0 +1,59 @@
+# Build outputs
+target/
+backend/target/
+dist/
+frontend/dist/
+frontend/.angular/
+frontend/.cache/
+
+# Node dependencies
+node_modules/
+frontend/node_modules/
+
+# Logs and runtime
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment and secrets — NEVER commit real .env files
+.env
+.env.*
+!.env.example
+deploy/.env
+deploy/.env.*
+!deploy/.env.example
+
+# Secret/key files
+*.pem
+*.key
+*.p12
+*.jks
+*.pfx
+secrets/
+secrets.yml
+secrets.yaml
+
+# IDE and editors
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Test reports & coverage
+coverage/
+frontend/coverage/
+playwright-report/
+test-results/
+frontend/playwright-report/
+frontend/test-results/

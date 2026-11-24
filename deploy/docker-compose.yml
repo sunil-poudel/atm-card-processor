@@ -1,0 +1,88 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: minicard-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-minicard}
+      POSTGRES_USER: ${POSTGRES_USER:-minicard}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-minicard} -d ${POSTGRES_DB:-minicard}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    networks:
+      - minicard-net
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: minicard-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-prod}
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL:-jdbc:postgresql://postgres:5432/minicard}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME:-minicard}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      APP_SECURITY_JWT_SECRET: ${APP_SECURITY_JWT_SECRET}
+      APP_SECURITY_COOKIE_SECURE: ${APP_SECURITY_COOKIE_SECURE:-false}
+      APP_SECURITY_CORS_ALLOWED_ORIGINS: ${APP_SECURITY_CORS_ALLOWED_ORIGINS:-}
+      APP_CRYPTO_PAN_CURRENT_KEY_ID: ${APP_CRYPTO_PAN_CURRENT_KEY_ID:-k1}
+      APP_CRYPTO_PAN_KEYS_K1: ${APP_CRYPTO_PAN_KEYS_K1}
+      APP_CRYPTO_PAN_HASH_KEY: ${APP_CRYPTO_PAN_HASH_KEY}
+      APP_BOOTSTRAP_ADMIN_EMAIL: ${APP_BOOTSTRAP_ADMIN_EMAIL:-admin@minicard.local}
+      APP_BOOTSTRAP_ADMIN_PASSWORD: ${APP_BOOTSTRAP_ADMIN_PASSWORD}
+      APP_CARDS_BIN: ${APP_CARDS_BIN:-990000}
+      APP_CARDS_EXPOSE_PAN_ON_ISSUE: ${APP_CARDS_EXPOSE_PAN_ON_ISSUE:-true}
+      APP_BUSINESS_ZONE: ${APP_BUSINESS_ZONE:-Asia/Kathmandu}
+      APP_FRAUD_FLAG_THRESHOLD: ${APP_FRAUD_FLAG_THRESHOLD:-50}
+      APP_FRAUD_DECLINE_THRESHOLD: ${APP_FRAUD_DECLINE_THRESHOLD:-80}
+      APP_DISPUTES_EVIDENCE_DAYS: ${APP_DISPUTES_EVIDENCE_DAYS:-7}
+      APP_DISPUTES_MAX_AGE_DAYS: ${APP_DISPUTES_MAX_AGE_DAYS:-120}
+      APP_DISPUTES_DEADLINE_JOB_CRON: ${APP_DISPUTES_DEADLINE_JOB_CRON:-0 0 * * * *}
+      SPRINGDOC_ENABLED: ${SPRINGDOC_ENABLED:-false}
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health/readiness | grep -q '\"status\":\"UP\"' || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 15s
+    networks:
+      - minicard-net
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: minicard-frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8081/ || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    networks:
+      - minicard-net
+
+volumes:
+  pgdata:
+
+networks:
+  minicard-net:
+    driver: bridge

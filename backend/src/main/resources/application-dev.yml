@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/minicard
+    username: minicard
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
+springdoc:
+  swagger-ui:
+    enabled: true
+
+app:
+  bootstrap-admin:
+    email: admin@minicard.local
+    password: ${APP_BOOTSTRAP_ADMIN_PASSWORD}
+  security:
+    cors-allowed-origins:
+      - "http://localhost:4200"
+      - "http://127.0.0.1:4200"
+    jwt:
+      secret: ${APP_SECURITY_JWT_SECRET}
+      access-token-expiration-minutes: 15
+      refresh-token-expiration-days: 7
+    cookie-secure: false
+  crypto:
+    pan:
+      current-key-id: k1
+      keys:
+        k1: ${APP_CRYPTO_PAN_KEYS_K1}
+      hash-key: ${APP_CRYPTO_PAN_HASH_KEY}
+  cards:
+    expose-pan-on-issue: true

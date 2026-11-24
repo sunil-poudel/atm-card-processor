@@ -1,0 +1,499 @@
+@use '@angular/material' as mat;
+@use '@fontsource/roboto/300.css' as roboto300;
+@use '@fontsource/roboto/400.css' as roboto400;
+@use '@fontsource/roboto/500.css' as roboto500;
+@use '@fontsource/roboto/700.css' as roboto700;
+@use 'material-icons/iconfont/material-icons.css' as matIcons;
+
+@include mat.core();
+
+$theme: mat.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: (
+      plain-family: '"Plus Jakarta Sans", "Roboto", -apple-system, BlinkMacSystemFont, sans-serif',
+      brand-family: '"Plus Jakarta Sans", "Roboto", -apple-system, BlinkMacSystemFont, sans-serif',
+    ),
+    density: (
+      scale: 0,
+    ),
+  )
+);
+
+/* ========================================================================= */
+/* CSS VARIABLES: LIGHT & DARK PALETTES                                       */
+/* ========================================================================= */
+:root {
+  /* Light Mode Ceramic Fintech Palette */
+  --mc-primary: #0284c7;
+  --mc-primary-light: #38bdf8;
+  --mc-primary-glow: rgba(0, 216, 246, 0.25);
+  --mc-accent: #00d8f6;
+  --mc-bg: #f8fafc;
+  --mc-surface: rgba(255, 255, 255, 0.94);
+  --mc-surface-solid: #ffffff;
+  --mc-surface-hover: #f1f5f9;
+  --mc-border: #e2e8f0;
+  --mc-border-light: #f1f5f9;
+  --mc-text-primary: #0f172a;
+  --mc-text-secondary: #475569;
+  --mc-text-muted: #94a3b8;
+
+  /* Status Colors */
+  --mc-success: #10b981;
+  --mc-success-bg: #ecfdf5;
+  --mc-success-border: #a7f3d0;
+
+  --mc-danger: #ef4444;
+  --mc-danger-bg: #fef2f2;
+  --mc-danger-border: #fecaca;
+
+  --mc-warning: #f59e0b;
+  --mc-warning-bg: #fffbeb;
+  --mc-warning-border: #fde68a;
+
+  --mc-neutral: #64748b;
+  --mc-neutral-bg: #f8fafc;
+  --mc-neutral-border: #cbd5e1;
+
+  --mc-radius: 14px;
+  --mc-radius-sm: 8px;
+  --mc-shadow-subtle: 0 4px 20px -2px rgba(148, 163, 184, 0.2);
+  --mc-shadow-glass: 0 10px 30px -10px rgba(148, 163, 184, 0.25);
+
+  @include mat.all-component-themes($theme);
+}
+
+html.dark {
+  /* Futuristic Dark Carbon Palette */
+  --mc-primary: #00d8f6;
+  --mc-primary-light: #38bdf8;
+  --mc-primary-glow: rgba(0, 216, 246, 0.35);
+  --mc-accent: #00d8f6;
+  --mc-bg: #07090e;
+  --mc-surface: rgba(13, 18, 30, 0.88);
+  --mc-surface-solid: #0d121e;
+  --mc-surface-hover: rgba(30, 41, 59, 0.7);
+  --mc-border: rgba(255, 255, 255, 0.08);
+  --mc-border-light: rgba(255, 255, 255, 0.04);
+  --mc-text-primary: #f8fafc;
+  --mc-text-secondary: #94a3b8;
+  --mc-text-muted: #64748b;
+
+  --mc-success: #10b981;
+  --mc-success-bg: rgba(16, 185, 129, 0.12);
+  --mc-success-border: rgba(16, 185, 129, 0.3);
+
+  --mc-danger: #ef4444;
+  --mc-danger-bg: rgba(239, 68, 68, 0.12);
+  --mc-danger-border: rgba(239, 68, 68, 0.3);
+
+  --mc-warning: #f59e0b;
+  --mc-warning-bg: rgba(245, 158, 11, 0.12);
+  --mc-warning-border: rgba(245, 158, 11, 0.3);
+
+  --mc-neutral: #94a3b8;
+  --mc-neutral-bg: rgba(148, 163, 184, 0.12);
+  --mc-neutral-border: rgba(148, 163, 184, 0.25);
+
+  --mc-shadow-subtle: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+  --mc-shadow-glass: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+}
+
+/* ========================================================================= */
+/* BASE RESETS & TEXTURED BACKGROUNDS                                        */
+/* ========================================================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family:
+    'Plus Jakarta Sans',
+    'Roboto',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  background-color: var(--mc-bg);
+  color: var(--mc-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+/* Light Mode Clean Ceramic Futuristic Texture */
+body.tech-bg,
+.tech-bg {
+  background-color: #f8fafc;
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(0, 180, 216, 0.08) 0%, transparent 70%),
+    linear-gradient(to right, rgba(0, 0, 0, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.035) 1px, transparent 1px);
+  background-size:
+    100% 100%,
+    40px 40px,
+    40px 40px;
+  background-attachment: fixed;
+}
+
+/* Dark Mode Deep Carbon Textured Grid */
+html.dark body.tech-bg,
+html.dark .tech-bg {
+  background-color: #07090e;
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(0, 216, 246, 0.09) 0%, transparent 60%),
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size:
+    100% 100%,
+    40px 40px,
+    40px 40px;
+  background-attachment: fixed;
+}
+
+/* ========================================================================= */
+/* TYPOGRAPHY & TABULAR NUMERALS                                             */
+/* ========================================================================= */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -0.02em;
+  color: var(--mc-text-primary);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+.mono {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+}
+
+.amount {
+  font-variant-numeric: tabular-nums;
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-weight: 700;
+  text-align: right;
+  letter-spacing: -0.01em;
+}
+
+/* ========================================================================= */
+/* GLASS PANELS & CARDS                                                      */
+/* ========================================================================= */
+.card-glass,
+.mc-card,
+.filters-card,
+.table-container-card,
+.mat-mdc-card {
+  background: var(--mc-surface) !important;
+  border: 1px solid var(--mc-border) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: var(--mc-radius) !important;
+  box-shadow: var(--mc-shadow-glass) !important;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.card-glass:hover,
+.mc-card:hover,
+.filters-card:hover,
+.table-container-card:hover,
+.mat-mdc-card:hover {
+  border-color: rgba(0, 216, 246, 0.35) !important;
+}
+
+/* ========================================================================= */
+/* ANGULAR MATERIAL DARK/LIGHT ADAPTATIONS                                   */
+/* ========================================================================= */
+html.dark {
+  .mat-mdc-card-header,
+  .mat-mdc-card-content,
+  .mat-mdc-card-title {
+    color: var(--mc-text-primary);
+  }
+
+  /* MDC Form Fields */
+  .mat-mdc-form-field {
+    --mdc-outlined-text-field-outline-color: rgba(255, 255, 255, 0.16);
+    --mdc-outlined-text-field-hover-outline-color: rgba(0, 216, 246, 0.6);
+    --mdc-outlined-text-field-focus-outline-color: #00d8f6;
+    --mdc-outlined-text-field-label-text-color: #94a3b8;
+    --mdc-outlined-text-field-focus-label-text-color: #00d8f6;
+    --mdc-outlined-text-field-input-text-color: #f8fafc;
+    --mat-select-panel-background-color: #0d121e;
+  }
+
+  .mat-mdc-input-element {
+    color: #f8fafc !important;
+  }
+
+  .mat-mdc-select-value {
+    color: #f8fafc !important;
+  }
+
+  .mat-mdc-select-arrow {
+    color: #94a3b8 !important;
+  }
+
+  .mat-mdc-select-panel {
+    background-color: #0d121e !important;
+    border: 1px solid rgba(0, 216, 246, 0.25) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8) !important;
+  }
+
+  .mat-mdc-option {
+    color: #f8fafc !important;
+    &:hover,
+    &.mdc-list-item--selected {
+      background-color: rgba(0, 216, 246, 0.15) !important;
+      color: #00d8f6 !important;
+    }
+  }
+
+  /* Dialogs */
+  .mat-mdc-dialog-container .mdc-dialog__surface {
+    background-color: #0d121e !important;
+    color: #f8fafc !important;
+    border: 1px solid rgba(0, 216, 246, 0.3) !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9) !important;
+    border-radius: 18px !important;
+  }
+
+  .mat-mdc-dialog-title {
+    color: #f8fafc !important;
+  }
+
+  /* Menus */
+  .mat-mdc-menu-panel {
+    background-color: #0d121e !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7) !important;
+    border-radius: 12px !important;
+  }
+
+  .mat-mdc-menu-item {
+    color: #f8fafc !important;
+    mat-icon {
+      color: #94a3b8;
+    }
+    &:hover {
+      background-color: rgba(0, 216, 246, 0.1) !important;
+      color: #00d8f6 !important;
+      mat-icon {
+        color: #00d8f6;
+      }
+    }
+  }
+
+  /* Tables */
+  .mat-mdc-table {
+    background-color: transparent !important;
+    color: var(--mc-text-primary) !important;
+  }
+
+  .mat-mdc-header-cell {
+    color: var(--mc-text-secondary) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    font-weight: 700 !important;
+    font-size: 0.75rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+  }
+
+  .mat-mdc-cell {
+    color: var(--mc-text-primary) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  }
+
+  .mat-mdc-row:hover {
+    background-color: rgba(0, 216, 246, 0.04) !important;
+  }
+
+  /* Paginators */
+  .mat-mdc-paginator {
+    background-color: transparent !important;
+    color: var(--mc-text-secondary) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  }
+
+  /* ---- Sidenav & Nav List Items (dark mode fix) ---- */
+  .mat-sidenav,
+  .mat-drawer {
+    background-color: #0d121e !important;
+    color: #f8fafc !important;
+  }
+
+  .mat-toolbar {
+    background-color: rgba(13, 18, 30, 0.95) !important;
+    color: #f8fafc !important;
+  }
+
+  /* Force nav list item text to be visible in dark mode */
+  .mat-mdc-list-item,
+  .mat-mdc-nav-list .mat-mdc-list-item {
+    --mdc-list-list-item-label-text-color: #e2e8f0;
+    --mdc-list-list-item-supporting-text-color: #94a3b8;
+    --mdc-list-list-item-leading-icon-color: #94a3b8;
+    --mdc-list-list-item-hover-label-text-color: #f8fafc;
+    --mdc-list-list-item-hover-state-layer-color: rgba(0, 216, 246, 0.08);
+    color: #e2e8f0 !important;
+  }
+
+  .mat-mdc-list-item .mdc-list-item__primary-text {
+    color: #e2e8f0 !important;
+  }
+
+  .mat-mdc-list-item mat-icon,
+  .mat-mdc-nav-list mat-icon {
+    color: #94a3b8 !important;
+  }
+
+  /* Sidenav container bg */
+  .mat-sidenav-container,
+  .mat-drawer-container {
+    background-color: transparent !important;
+  }
+}
+
+/* Common Table Tweaks */
+.mat-mdc-header-cell {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-weight: 700 !important;
+}
+
+.mat-mdc-cell {
+  font-size: 0.875rem !important;
+}
+
+/* ========================================================================= */
+/* BUTTONS: FUTURISTIC FINTECH TOUCH                                         */
+/* ========================================================================= */
+.mat-mdc-unelevated-button.mat-primary,
+.mat-mdc-raised-button.mat-primary,
+.mat-mdc-flat-button.mat-primary {
+  --mdc-filled-button-container-color: #0284c7;
+  --mdc-filled-button-label-text-color: #ffffff;
+  font-weight: 700;
+  border-radius: 10px;
+  letter-spacing: 0.01em;
+  transition: all 0.2s ease;
+}
+
+html.dark {
+  .mat-mdc-unelevated-button.mat-primary,
+  .mat-mdc-raised-button.mat-primary,
+  .mat-mdc-flat-button.mat-primary {
+    --mdc-filled-button-container-color: #00d8f6;
+    --mdc-filled-button-label-text-color: #07090e;
+    box-shadow: 0 0 15px rgba(0, 216, 246, 0.35);
+  }
+}
+
+.mat-mdc-outlined-button {
+  border-radius: 10px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+html.dark .mat-mdc-outlined-button {
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  color: #f8fafc !important;
+  &:hover {
+    border-color: #00d8f6 !important;
+    background-color: rgba(0, 216, 246, 0.08) !important;
+  }
+}
+
+/* ========================================================================= */
+/* RESPONSIVE HELPERS & UTILITIES                                            */
+/* ========================================================================= */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Custom Sleek Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+  border-radius: 3px;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 216, 246, 0.5);
+}
+
+/* Spacing Helpers */
+.mc-flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.mc-flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.mc-flex-1 {
+  flex: 1;
+}
+
+.mc-gap-1 {
+  gap: 8px;
+}
+.mc-gap-2 {
+  gap: 16px;
+}
+.mc-gap-3 {
+  gap: 24px;
+}
+.mc-gap-4 {
+  gap: 32px;
+}
+
+/* Touch friendliness on Mobile / Android Viewports */
+@media (max-width: 600px) {
+  .mat-mdc-button,
+  .mat-mdc-raised-button,
+  .mat-mdc-outlined-button,
+  .mat-mdc-flat-button {
+    min-height: 42px;
+  }
+
+  .mc-card {
+    padding: 16px !important;
+  }
+}

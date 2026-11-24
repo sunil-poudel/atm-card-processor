@@ -1,0 +1,19 @@
+spring:
+  threads:
+    virtual:
+      enabled: true
+
+server:
+  shutdown: graceful
+  forward-headers-strategy: framework
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
+logging:
+  structured:
+    format:
+      console: ecs

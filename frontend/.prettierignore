@@ -1,0 +1,5 @@
+dist
+node_modules
+coverage
+.angular
+src/app/core/api/schema.d.ts
